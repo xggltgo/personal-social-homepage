@@ -1,0 +1,1454 @@
+{
+	"info": {
+		"_postman_id": "880c27eb-def8-4bdc-9b8b-bc3d9acc0b8d",
+		"name": "personal-social-homepage",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "21091759"
+	},
+	"item": [
+		{
+			"name": "用户",
+			"item": [
+				{
+					"name": "恢复登录状态",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmlja25hbWUiOiLotoXnuqfnrqHnkIblkZgiLCJsb2dpbklkIjoieGdnbHQiLCJhdmF0YXIiOiIvc3RhdGljL2F2YXRhci9kZWZhdWx0LnBuZyIsImlzQWRtaW4iOnRydWUsImlhdCI6MTY4MDg3NTUyNywiZXhwIjoxNjgxNDgwMzI3fQ.TUfayUc_YHmfJBOwGMUbi61v-c7GSWEUQ8simERENpU",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:3000/api/user/whoami",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"user",
+								"whoami"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "判断账号是否存在",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/user?loginId=xgglt",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"user"
+							],
+							"query": [
+								{
+									"key": "loginId",
+									"value": "xgglt"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "注册",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nickname\": \"摆烂\",\r\n    \"loginId\": \"user2\",\r\n    \"loginPwd\": \"123456\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/api/user/register",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"user",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "登录",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"loginId\": \"user\",\r\n    \"loginPwd\": \"123456\",\r\n    \"remember\": 7\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/api/user/login",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"user",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "修改用户信息",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Miwibmlja25hbWUiOiLmma7pgJrnlKjmiLciLCJsb2dpbklkIjoidXNlciIsImF2YXRhciI6Ii9zdGF0aWMvYXZhdGFyL2RlZmF1bHQucG5nIiwiaXNBZG1pbiI6ZmFsc2UsImludGVncmFsIjowLCJzZWxmRXNzYXlDb3VudCI6Miwic2VsZklzc3VlQ291bnQiOjAsInNlbGZMaWZlQ291bnQiOjAsImlhdCI6MTY4MTY1ODI3OSwiZXhwIjoxNjgyMjYzMDc5fQ._J70Yav2UlXWykzW0tkgqsYTr3NhDUXb0kDuSYyRbPs",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nickname\": \"超级管理员\",\r\n  \"profession\":\"前端开发\",\r\n  \"selfIntroduction\":\"无\",\r\n  \"avatar\": \"/static/avatar/default1.png\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/api/user/3",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"user",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "根据id获取用户信息",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/user/detail/1",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"user",
+								"detail",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "验证码",
+			"item": [
+				{
+					"name": "获取验证码",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/res/captcha",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"res",
+								"captcha"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "上传接口",
+			"item": [
+				{
+					"name": "图片上传",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Miwibmlja25hbWUiOiLmma7pgJrnlKjmiLciLCJsb2dpbklkIjoidXNlciIsImF2YXRhciI6Ii9zdGF0aWMvYXZhdGFyL2RlZmF1bHQucG5nIiwiaXNBZG1pbiI6ZmFsc2UsImludGVncmFsIjowLCJzZWxmRXNzYXlDb3VudCI6MCwic2VsZklzc3VlQ291bnQiOjAsInNlbGZMaWZlQ291bnQiOjAsImlhdCI6MTY4MTQwODE2OCwiZXhwIjoxNjgxNDk0NTY4fQ.N_vajjKOXL-9XySntRrjic5aTSG3Bk2i_4snOLF7Yf4",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/C:/Users/Lenovo/Pictures/Camera Roll/kb.jpeg"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:3000/api/upload",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"upload"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "分类",
+			"item": [
+				{
+					"name": "添加分类",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFtZSI6Iui2hee6p-euoeeQhuWRmCIsImxvZ2luSWQiOiJ4Z2dsdCIsImF2YXRhciI6Ii9zdGF0aWMvYXZhdGFyL2RlZmF1bHQucG5nIiwiaWF0IjoxNjgwNzAzODE4LCJleHAiOjE2ODEzMDg2MTh9.YXLfizDNHHZ06iY_xd1anpRiNUf7-SvYARrU2uLn_NQ",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"TypeScript\",\r\n  \"order\": 2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/api/category",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"category"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "删除分类",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFtZSI6Iui2hee6p-euoeeQhuWRmCIsImxvZ2luSWQiOiJ4Z2dsdCIsImF2YXRhciI6Ii9zdGF0aWMvYXZhdGFyL2RlZmF1bHQucG5nIiwiaWF0IjoxNjgwNzAzODE4LCJleHAiOjE2ODEzMDg2MTh9.YXLfizDNHHZ06iY_xd1anpRiNUf7-SvYARrU2uLn_NQ",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:3000/api/category/1",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"category",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "修改分类",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFtZSI6Iui2hee6p-euoeeQhuWRmCIsImxvZ2luSWQiOiJ4Z2dsdCIsImF2YXRhciI6Ii9zdGF0aWMvYXZhdGFyL2RlZmF1bHQucG5nIiwiaWF0IjoxNjgwNzAzODE4LCJleHAiOjE2ODEzMDg2MTh9.YXLfizDNHHZ06iY_xd1anpRiNUf7-SvYARrU2uLn_NQ",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"Html\",\r\n  \"order\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/api/category/3",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"category",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "获取单个分类",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFtZSI6Iui2hee6p-euoeeQhuWRmCIsImxvZ2luSWQiOiJ4Z2dsdCIsImF2YXRhciI6Ii9zdGF0aWMvYXZhdGFyL2RlZmF1bHQucG5nIiwiaWF0IjoxNjgwNzAzODE4LCJleHAiOjE2ODEzMDg2MTh9.YXLfizDNHHZ06iY_xd1anpRiNUf7-SvYARrU2uLn_NQ",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:3000/api/category/1",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"category",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "获取所有分类",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/category",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"category"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "文章",
+			"item": [
+				{
+					"name": "添加文章",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Miwibmlja25hbWUiOiLmma7pgJrnlKjmiLciLCJsb2dpbklkIjoidXNlciIsImF2YXRhciI6Ii9zdGF0aWMvYXZhdGFyL2RlZmF1bHQucG5nIiwiaXNBZG1pbiI6ZmFsc2UsImludGVncmFsIjowLCJzZWxmRXNzYXlDb3VudCI6MCwic2VsZklzc3VlQ291bnQiOjAsInNlbGZMaWZlQ291bnQiOjAsImlhdCI6MTY4MTQ1MjgwMiwiZXhwIjoxNjgyMDU3NjAyfQ.G7DkxtHeWJAHZXpTrSSPDSgl2Mng4hRGiApvVbXTTjk",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"本地 ide 使用 read_line222\",\r\n    \"content\": \"<h1>本地 ide 使用 read_line</h1>\\n<h2>安装 readline-sync</h2>\\n<pre><code class=\\\"language-js\\\">npm install readline-sync\\n</code></pre>\\n<h2>使用 readline-sync</h2>\\n<p><strong>index.js</strong></p>\\n<pre><code class=\\\"language-js\\\">var __readline = require('readline-sync')\\n__readline.setDefaultOptions({prompt: ''})\\nvar read_line = __readline.prompt // 此时 read_line 已经与赛码中的功能相同 直接使用即可\\n// ...\\n</code></pre>\\n<h2>命令行运行文件</h2>\\n<pre><code class=\\\"language-shell\\\">node\\n</code></pre>\\n\",\r\n    \"markdown\": \"# 本地 ide 使用 read_line\\n\\n## 安装 readline-sync\\n\\n```js\\nnpm install readline-sync\\n```\\n\\n## 使用 readline-sync\\n\\n**index.js**\\n\\n```js\\nvar __readline = require('readline-sync')\\n__readline.setDefaultOptions({prompt: ''})\\nvar read_line = __readline.prompt // 此时 read_line 已经与赛码中的功能相同 直接使用即可\\n// ...\\n```\\n\\n## 命令行运行文件\\n\\n```shell\\nnode\\n```\\n\\n\",\r\n    \"description\": \"本地 ide 使用 read_line\",\r\n    \"cover\": \"/static/upload/jnmp5z-1681453660526.png\",\r\n    \"categoryid\": 1,\r\n    \"userid\": 2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/api/essay",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"essay"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "修改文章",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Miwibmlja25hbWUiOiLmma7pgJrnlKjmiLciLCJsb2dpbklkIjoidXNlciIsImF2YXRhciI6Ii9zdGF0aWMvYXZhdGFyL2RlZmF1bHQucG5nIiwiaXNBZG1pbiI6ZmFsc2UsImludGVncmFsIjowLCJzZWxmRXNzYXlDb3VudCI6MCwic2VsZklzc3VlQ291bnQiOjAsInNlbGZMaWZlQ291bnQiOjAsImlhdCI6MTY4MTQ1MjgwMiwiZXhwIjoxNjgyMDU3NjAyfQ.G7DkxtHeWJAHZXpTrSSPDSgl2Mng4hRGiApvVbXTTjk",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"本地 ide 使用 read_line222333\",\r\n    \"content\": \"<h1>本地 ide 使用 read_line</h1>\\n<h2>安装 readline-sync</h2>\\n<pre><code class=\\\"language-js\\\">npm install readline-sync\\n</code></pre>\\n<h2>使用 readline-sync</h2>\\n<p><strong>index.js</strong></p>\\n<pre><code class=\\\"language-js\\\">var __readline = require('readline-sync')\\n__readline.setDefaultOptions({prompt: ''})\\nvar read_line = __readline.prompt // 此时 read_line 已经与赛码中的功能相同 直接使用即可\\n// ...\\n</code></pre>\\n<h2>命令行运行文件</h2>\\n<pre><code class=\\\"language-shell\\\">node\\n</code></pre>\\n\",\r\n    \"markdown\": \"# 本地 ide 使用 read_line\\n\\n## 安装 readline-sync\\n\\n```js\\nnpm install readline-sync\\n```\\n\\n## 使用 readline-sync\\n\\n**index.js**\\n\\n```js\\nvar __readline = require('readline-sync')\\n__readline.setDefaultOptions({prompt: ''})\\nvar read_line = __readline.prompt // 此时 read_line 已经与赛码中的功能相同 直接使用即可\\n// ...\\n```\\n\\n## 命令行运行文件\\n\\n```shell\\nnode\\n```\\n\\n\",\r\n    \"description\": \"本地 ide 使用 read_line\",\r\n    \"cover\": \"/static/upload/jnmp5z-1681453660526.png\",\r\n    \"categoryid\": 2,\r\n    \"userid\": 2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/api/essay/53",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"essay",
+								"53"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "删除文章",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFtZSI6Iui2hee6p-euoeeQhuWRmCIsImxvZ2luSWQiOiJ4Z2dsdCIsImF2YXRhciI6Ii9zdGF0aWMvYXZhdGFyL2RlZmF1bHQucG5nIiwiaWF0IjoxNjgwNzg5ODU4LCJleHAiOjE2ODEzOTQ2NTh9.2hYFleCm-zuD5CwiYOsHSHLEK_nAfyD5oHEQ5mLYnPs",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:3000/api/essay/1",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"essay",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "获取单篇文章",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:3000/api/essay/18",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"essay",
+								"18"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "分页获取文章",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:3000/api/essay?page=1&userid=2&limit=10",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"essay"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "categoryid",
+									"value": "1",
+									"disabled": true
+								},
+								{
+									"key": "userid",
+									"value": "2"
+								},
+								{
+									"key": "keyword",
+									"value": "成都",
+									"disabled": true
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "问答",
+			"item": [
+				{
+					"name": "添加问答",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFtZSI6Iui2hee6p-euoeeQhuWRmCIsImxvZ2luSWQiOiJ4Z2dsdCIsImF2YXRhciI6Ii9zdGF0aWMvYXZhdGFyL2RlZmF1bHQucG5nIiwiaWF0IjoxNjgwNzAzODE4LCJleHAiOjE2ODEzMDg2MTh9.YXLfizDNHHZ06iY_xd1anpRiNUf7-SvYARrU2uLn_NQ",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"玩转JavaScript\",\r\n    \"content\": \"<h1>AAA</h1><h2>BBB</h2><h3>CCC</h3>\",\r\n    \"userid\": \"1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/api/issue",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"issue"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "修改问答",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFtZSI6Iui2hee6p-euoeeQhuWRmCIsImxvZ2luSWQiOiJ4Z2dsdCIsImF2YXRhciI6Ii9zdGF0aWMvYXZhdGFyL2RlZmF1bHQucG5nIiwiaWF0IjoxNjgwNzAzODE4LCJleHAiOjE2ODEzMDg2MTh9.YXLfizDNHHZ06iY_xd1anpRiNUf7-SvYARrU2uLn_NQ",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"玩转JavaScript123\",\r\n    \"content\": \"<h1>AAA</h1>\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/api/issue/1",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"issue",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "删除问答",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFtZSI6Iui2hee6p-euoeeQhuWRmCIsImxvZ2luSWQiOiJ4Z2dsdCIsImF2YXRhciI6Ii9zdGF0aWMvYXZhdGFyL2RlZmF1bHQucG5nIiwiaWF0IjoxNjgwNzg5ODU4LCJleHAiOjE2ODEzOTQ2NTh9.2hYFleCm-zuD5CwiYOsHSHLEK_nAfyD5oHEQ5mLYnPs",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:3000/api/issue/2",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"issue",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "获取单个问答",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:3000/api/issue/1",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"issue",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "分页获取问答",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:3000/api/issue?page=1&limit=10",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"issue"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "categoryid",
+									"value": "9",
+									"disabled": true
+								},
+								{
+									"key": "status",
+									"value": "2",
+									"disabled": true
+								},
+								{
+									"key": "keyword",
+									"value": "成都",
+									"disabled": true
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "动态",
+			"item": [
+				{
+					"name": "添加动态",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Miwibmlja25hbWUiOiLmma7pgJrnlKjmiLciLCJsb2dpbklkIjoidXNlciIsImF2YXRhciI6Ii9zdGF0aWMvYXZhdGFyL2RlZmF1bHQucG5nIiwiaXNBZG1pbiI6ZmFsc2UsImludGVncmFsIjowLCJzZWxmRXNzYXlDb3VudCI6Miwic2VsZklzc3VlQ291bnQiOjAsInNlbGZMaWZlQ291bnQiOjAsImlhdCI6MTY4MTc5OTk3MSwiZXhwIjoxNjgyNDA0NzcxfQ.IlPm9VblwBy632HbA9q-8eLHRWlHIufEAqWsA-UQ3gk",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"content\": \"今天天气好\",\r\n    \"images\": [\r\n        \"static/upload/default.png\"\r\n    ],\r\n    \"userid\": 2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/api/life",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"life"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "修改动态",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Miwibmlja25hbWUiOiLmma7pgJrnlKjmiLciLCJsb2dpbklkIjoidXNlciIsImF2YXRhciI6Ii9zdGF0aWMvYXZhdGFyL2RlZmF1bHQucG5nIiwiaXNBZG1pbiI6ZmFsc2UsImludGVncmFsIjowLCJzZWxmRXNzYXlDb3VudCI6Miwic2VsZklzc3VlQ291bnQiOjAsInNlbGZMaWZlQ291bnQiOjAsImlhdCI6MTY4MTc5OTk3MSwiZXhwIjoxNjgyNDA0NzcxfQ.IlPm9VblwBy632HbA9q-8eLHRWlHIufEAqWsA-UQ3gk",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"content\": \"今天天气好！\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/api/life/1",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"life",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "删除动态",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Miwibmlja25hbWUiOiLmma7pgJrnlKjmiLciLCJsb2dpbklkIjoidXNlciIsImF2YXRhciI6Ii9zdGF0aWMvYXZhdGFyL2RlZmF1bHQucG5nIiwiaXNBZG1pbiI6ZmFsc2UsImludGVncmFsIjowLCJzZWxmRXNzYXlDb3VudCI6Miwic2VsZklzc3VlQ291bnQiOjAsInNlbGZMaWZlQ291bnQiOjAsImlhdCI6MTY4MTc5OTk3MSwiZXhwIjoxNjgyNDA0NzcxfQ.IlPm9VblwBy632HbA9q-8eLHRWlHIufEAqWsA-UQ3gk",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:3000/api/life/1",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"life",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "获取单个动态",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:3000/api/life/1",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"life",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "分页获取动态",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:3000/api/life?page=1&limit=10",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"life"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "categoryid",
+									"value": "9",
+									"disabled": true
+								},
+								{
+									"key": "status",
+									"value": "2",
+									"disabled": true
+								},
+								{
+									"key": "keyword",
+									"value": "成都",
+									"disabled": true
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "留言",
+			"item": [
+				{
+					"name": "添加留言",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFtZSI6Iui2hee6p-euoeeQhuWRmCIsImxvZ2luSWQiOiJ4Z2dsdCIsImF2YXRhciI6Ii9zdGF0aWMvYXZhdGFyL2RlZmF1bHQucG5nIiwiaWF0IjoxNjgwNzAzODE4LCJleHAiOjE2ODEzMDg2MTh9.YXLfizDNHHZ06iY_xd1anpRiNUf7-SvYARrU2uLn_NQ",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"content\": \"今天天气好!!!\",\r\n    \"userid\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/api/message",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"message"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "修改留言",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFtZSI6Iui2hee6p-euoeeQhuWRmCIsImxvZ2luSWQiOiJ4Z2dsdCIsImF2YXRhciI6Ii9zdGF0aWMvYXZhdGFyL2RlZmF1bHQucG5nIiwiaWF0IjoxNjgwNzAzODE4LCJleHAiOjE2ODEzMDg2MTh9.YXLfizDNHHZ06iY_xd1anpRiNUf7-SvYARrU2uLn_NQ",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"content\": \"今天天气好！\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/api/message/1",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"message",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "删除留言",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFtZSI6Iui2hee6p-euoeeQhuWRmCIsImxvZ2luSWQiOiJ4Z2dsdCIsImF2YXRhciI6Ii9zdGF0aWMvYXZhdGFyL2RlZmF1bHQucG5nIiwiaWF0IjoxNjgwNzg5ODU4LCJleHAiOjE2ODEzOTQ2NTh9.2hYFleCm-zuD5CwiYOsHSHLEK_nAfyD5oHEQ5mLYnPs",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:3000/api/message/1",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"message",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "获取单条留言",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:3000/api/message/1",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"message",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "分页获取动态",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:3000/api/message?page=1&limit=10",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"message"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "categoryid",
+									"value": "9",
+									"disabled": true
+								},
+								{
+									"key": "status",
+									"value": "2",
+									"disabled": true
+								},
+								{
+									"key": "keyword",
+									"value": "成都",
+									"disabled": true
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "评论",
+			"item": [
+				{
+					"name": "添加评论",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Miwibmlja25hbWUiOiLmma7pgJrnlKjmiLciLCJsb2dpbklkIjoidXNlciIsImF2YXRhciI6Ii9zdGF0aWMvYXZhdGFyL2RlZmF1bHQucG5nIiwiaXNBZG1pbiI6ZmFsc2UsImludGVncmFsIjowLCJzZWxmRXNzYXlDb3VudCI6MCwic2VsZklzc3VlQ291bnQiOjAsInNlbGZMaWZlQ291bnQiOjAsImlhdCI6MTY4MTQ1MjgwMiwiZXhwIjoxNjgyMDU3NjAyfQ.G7DkxtHeWJAHZXpTrSSPDSgl2Mng4hRGiApvVbXTTjk",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"content\": \"我来看啊\",\r\n    \"userid\": 3,\r\n    \"lifeid\": 6\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/api/comment",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"comment"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "修改评论",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFtZSI6Iui2hee6p-euoeeQhuWRmCIsImxvZ2luSWQiOiJ4Z2dsdCIsImF2YXRhciI6Ii9zdGF0aWMvYXZhdGFyL2RlZmF1bHQucG5nIiwiaWF0IjoxNjgwNzAzODE4LCJleHAiOjE2ODEzMDg2MTh9.YXLfizDNHHZ06iY_xd1anpRiNUf7-SvYARrU2uLn_NQ",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"content\": \"今天天气好！\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/api/comment/1",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"comment",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "删除评论",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFtZSI6Iui2hee6p-euoeeQhuWRmCIsImxvZ2luSWQiOiJ4Z2dsdCIsImF2YXRhciI6Ii9zdGF0aWMvYXZhdGFyL2RlZmF1bHQucG5nIiwiaWF0IjoxNjgwNzg5ODU4LCJleHAiOjE2ODEzOTQ2NTh9.2hYFleCm-zuD5CwiYOsHSHLEK_nAfyD5oHEQ5mLYnPs",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:3000/api/comment/1",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"comment",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "获取单条评论",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:3000/api/comment/1",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"comment",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "分页获取评论",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:3000/api/comment?page=1&essayid=18&limit=10",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"comment"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "essayid",
+									"value": "18"
+								},
+								{
+									"key": "status",
+									"value": "2",
+									"disabled": true
+								},
+								{
+									"key": "keyword",
+									"value": "成都",
+									"disabled": true
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "点赞",
+			"item": [
+				{
+					"name": "添加点赞",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Miwibmlja25hbWUiOiLmma7pgJrnlKjmiLciLCJsb2dpbklkIjoidXNlciIsImF2YXRhciI6Ii9zdGF0aWMvYXZhdGFyL2RlZmF1bHQucG5nIiwiaXNBZG1pbiI6ZmFsc2UsImludGVncmFsIjowLCJzZWxmRXNzYXlDb3VudCI6MCwic2VsZklzc3VlQ291bnQiOjAsInNlbGZMaWZlQ291bnQiOjAsImlhdCI6MTY4MTQ1MjgwMiwiZXhwIjoxNjgyMDU3NjAyfQ.G7DkxtHeWJAHZXpTrSSPDSgl2Mng4hRGiApvVbXTTjk",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userid\": 3,\r\n    \"lifeid\": 6\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/api/like",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"like"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "修改点赞",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFtZSI6Iui2hee6p-euoeeQhuWRmCIsImxvZ2luSWQiOiJ4Z2dsdCIsImF2YXRhciI6Ii9zdGF0aWMvYXZhdGFyL2RlZmF1bHQucG5nIiwiaWF0IjoxNjgwNzAzODE4LCJleHAiOjE2ODEzMDg2MTh9.YXLfizDNHHZ06iY_xd1anpRiNUf7-SvYARrU2uLn_NQ",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"content\": \"今天天气好！\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/api/like/1",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"like",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "删除点赞",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFtZSI6Iui2hee6p-euoeeQhuWRmCIsImxvZ2luSWQiOiJ4Z2dsdCIsImF2YXRhciI6Ii9zdGF0aWMvYXZhdGFyL2RlZmF1bHQucG5nIiwiaWF0IjoxNjgwNzg5ODU4LCJleHAiOjE2ODEzOTQ2NTh9.2hYFleCm-zuD5CwiYOsHSHLEK_nAfyD5oHEQ5mLYnPs",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:3000/api/like/1",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"like",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "获取单个点赞",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/like/exist?userid=2&essayid=18",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"like",
+								"exist"
+							],
+							"query": [
+								{
+									"key": "userid",
+									"value": "2"
+								},
+								{
+									"key": "essayid",
+									"value": "18"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "分页获取点赞",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:3000/api/like?page=1&essayid=18&limit=10",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"like"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "essayid",
+									"value": "18"
+								},
+								{
+									"key": "status",
+									"value": "2",
+									"disabled": true
+								},
+								{
+									"key": "keyword",
+									"value": "成都",
+									"disabled": true
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "New Request",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
