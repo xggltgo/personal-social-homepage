@@ -35,7 +35,6 @@ async function deleteLikeByEssayid(essayid) {
   });
 }
 
-
 /**
  * 从数据库修改一个赞
  * @param {Number} id 赞id
@@ -75,6 +74,19 @@ async function selectLikeByUseridAndEssayid(userid, essayid) {
   return null;
 }
 
+async function selectLikeByUseridAndLifeid(userid, lifeid) {
+  const result = await Like.findOne({
+    where: {
+      userid,
+      lifeid,
+    },
+  });
+  if (result) {
+    return result.toJSON();
+  }
+  return null;
+}
+
 /**
  * 从数据库查询所有赞
  */
@@ -82,12 +94,16 @@ async function selectLikeByPage({
   page = 1,
   limit = 20,
   essayid,
+  lifeid,
   keyword = '',
   status,
 }) {
   const where = {};
   if (+essayid) {
     where.essayid = essayid;
+  }
+  if (+lifeid) {
+    where.lifeid = lifeid;
   }
   if (+status) {
     where.status = +status;
@@ -113,6 +129,23 @@ async function selectLikeByPage({
   return JSON.parse(JSON.stringify(result));
 }
 
+/**
+ * 根据用户id查询该用户点赞的所有动态
+ * @param {Number} userid 用户id
+ */
+async function selectLifeLikesByUserid(userid) {
+  const result = await Like.findAll({
+    where: {
+      userid,
+      lifeid: {
+        [Op.not]: null,
+      },
+    },
+  });
+
+  return JSON.parse(JSON.stringify(result));
+}
+
 module.exports = {
   createLike,
   deleteLike,
@@ -120,5 +153,7 @@ module.exports = {
   selectOneLike,
   selectLikeByPage,
   selectLikeByUseridAndEssayid,
-  deleteLikeByEssayid
+  selectLikeByUseridAndLifeid,
+  selectLifeLikesByUserid,
+  deleteLikeByEssayid,
 };

@@ -9,21 +9,45 @@
           <div class="nickname">{{ userInfo.nickname }}</div>
           <div class="bottom">
             <div class="bottom-left">
-              <div class="profession" @click="showModal" v-if="userInfo.profession">
-                <TagsOutlined />
+              <div
+                class="profession"
+                @click="showModal('check')"
+                v-if="userInfo.profession"
+                :class="userInfo.id !== userStore.userInfo.id ? '' : 'isSelf'"
+              >
+                <div class="icon">
+                  <TagsOutlined />
+                </div>
                 <div class="text">{{ userInfo.profession }}</div>
               </div>
-              <div class="profession" @click="showModal" v-else>
+              <div
+                class="profession"
+                :class="userInfo.id !== userStore.userInfo.id ? '' : 'isSelf'"
+                @click="showModal('check')"
+                v-else
+              >
                 <div class="icon">
                   <PlusOutlined :style="{ fontSize: 12 + 'px' }" />
                 </div>
                 <div class="text">你从事什么职业？</div>
               </div>
-              <div class="selfIntroduction" @click="showModal" v-if="userInfo.selfIntroduction">
-                <SolutionOutlined />
+              <div
+                class="selfIntroduction"
+                :class="userInfo.id !== userStore.userInfo.id ? '' : 'isSelf'"
+                @click="showModal('check')"
+                v-if="userInfo.selfIntroduction"
+              >
+                <div class="icon">
+                  <SolutionOutlined />
+                </div>
                 <div class="text">{{ userInfo.selfIntroduction }}</div>
               </div>
-              <div class="selfIntroduction" @click="showModal" v-else>
+              <div
+                class="selfIntroduction"
+                :class="userInfo.id !== userStore.userInfo.id ? '' : 'isSelf'"
+                @click="showModal('check')"
+                v-else
+              >
                 <div class="icon">
                   <PlusOutlined :style="{ fontSize: 12 + 'px' }" />
                 </div>
@@ -118,7 +142,12 @@ const handleOk = (e) => {
   visible.value = false;
 };
 
-const showModal = () => {
+const showModal = (check) => {
+  if (check === 'check') {
+    if (userInfo.value.id !== userStore.userInfo.id) {
+      return;
+    }
+  }
   visible.value = true;
 };
 const hideModal = async () => {
@@ -153,7 +182,7 @@ fetchAllUserInfo();
     padding: 30px;
     background-color: #fff;
     border-radius: 2px;
-    .avatar{
+    .avatar {
       flex-shrink: 0;
     }
     .info-box {
@@ -181,12 +210,11 @@ fetchAllUserInfo();
         .profession,
         .selfIntroduction {
           display: flex;
-          color: #4a68ad;
-          cursor: pointer;
           font-size: 15px;
+          color: #72777b;
           line-height: 22.5px;
           display: flex;
-          align-items: flex-start;
+          align-items: center;
           .text {
             margin-left: 10px;
           }
@@ -196,8 +224,12 @@ fetchAllUserInfo();
             justify-content: center;
             align-items: center;
           }
-          &:hover {
-            opacity: 0.8;
+          &.isSelf {
+            color: #4a68ad;
+            cursor: pointer;
+            &:hover {
+              opacity: 0.8;
+            }
           }
         }
       }

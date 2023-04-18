@@ -5,6 +5,7 @@ const {
   selectOneLike,
   selectLikeByPage,
   selectLikeByUseridAndEssayid,
+  selectLikeByUseridAndLifeid,
 } = require('../dao/sql/like');
 
 const { updateEssay, updateEssayCount } = require('../dao/sql/essay');
@@ -27,6 +28,15 @@ async function addLike(likeInfo) {
     }
   } else if (issueid) {
   } else if (lifeid) {
+    // 点赞或取消点赞动态
+    // 1.判断用户是否已经点赞过该动态
+    const result = await selectLikeByUseridAndLifeid(userid, lifeid);
+    if (result) {
+      // 取消点赞
+      // 从对应动态的likeUsers中移除用户
+      deleteLike(result.id);
+      return null;
+    }
   }
   return await createLike({
     ...likeInfo,

@@ -27,7 +27,6 @@ import { ref } from 'vue';
 import { message } from 'ant-design-vue';
 import { useUserStore } from '@/stores/user';
 
-
 defineProps({
   titleText: {
     type: String,
@@ -49,6 +48,7 @@ const sendData = () => {
     message.success(successText);
   });
 };
+
 </script>
 
 <style lang="less" scoped>

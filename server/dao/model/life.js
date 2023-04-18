@@ -14,12 +14,12 @@ const Life = sequelize.define(
       type: DataTypes.TEXT,
       allowNull: false,
     },
-    // 点赞量
-    likeCount: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      defaultValue: 0,
-    },
+    // 所有点赞的用户id
+    // likeUsers: {
+    //   type: DataTypes.TEXT,
+    //   allowNull: false,
+    //   defaultValue: '[]',
+    // },
     // 动态发布时间
     createDate: {
       type: DataTypes.STRING,

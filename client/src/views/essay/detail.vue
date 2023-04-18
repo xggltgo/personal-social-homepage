@@ -1,5 +1,5 @@
 <template>
-  <div class="essay-detail-container">
+  <div class="essay-detail-container" v-if="essayInfo">
     <div class="count-wrapper">
       <a-badge
         :count="essayInfo.likeCount"
@@ -89,13 +89,14 @@ import CommentList from '@/components/Comment/List.vue';
 
 const route = useRoute();
 const userStore = useUserStore();
-const essayInfo = ref({});
+const essayInfo = ref(null);
 const liked = ref(false);
 const simpleImage = Empty.PRESENTED_IMAGE_SIMPLE;
 // 获取文章信息
 (async () => {
   const result = await getEssay(route.params.essayid);
   essayInfo.value = result;
+  console.log(result);
 })();
 
 // 获取文章对应的评论

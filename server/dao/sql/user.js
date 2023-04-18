@@ -66,7 +66,7 @@ async function updateUser(id, newUserInfo) {
 }
 
 /**
- * 更新用户的cartCount
+ * 更新用户的 selfEssayCount
  * @param {Number} id 用户id
  * @param {Number} val 变化的量 +1 -1
  */
@@ -75,6 +75,25 @@ async function updateUserSelfEssayCount(id, val) {
   const result = await User.update(
     {
       selfEssayCount: selfEssayCount + val,
+    },
+    {
+      where: {
+        id,
+      },
+    }
+  );
+  return result;
+}
+/**
+ * 更新用户的 selfLifeCount
+ * @param {Number} id 用户id
+ * @param {Number} val 变化的量 +1 -1
+ */
+async function updateUserSelfLifeCount(id, val) {
+  const { selfLifeCount } = await User.findByPk(id);
+  const result = await User.update(
+    {
+      selfLifeCount: selfLifeCount + val,
     },
     {
       where: {
@@ -104,4 +123,5 @@ module.exports = {
   selectUserById,
   selectUserByLoginId,
   updateUserSelfEssayCount,
+  updateUserSelfLifeCount,
 };

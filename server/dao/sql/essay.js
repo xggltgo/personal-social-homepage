@@ -56,7 +56,7 @@ async function selectOneEssay(id) {
     ],
     attributes: {
       // 不需要的字段
-      exclude: ['categoryid'],
+      exclude: ['categoryid','userid'],
     },
   });
   if (result) {

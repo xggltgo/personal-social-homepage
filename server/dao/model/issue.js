@@ -15,10 +15,14 @@ const Issue = sequelize.define(
       allowNull: false,
     },
     // -1:审核未通过 0：审核中 1：审核通过
-    status:{
+    // status:{
+    //   type: DataTypes.INTEGER,
+    //   allowNull: false,
+    //   defaultValue: 0,
+    // },
+    // 解决问题的commentid
+    solveCommentId: {
       type: DataTypes.INTEGER,
-      allowNull: false,
-      defaultValue: 0,
     },
     // 浏览量
     scanCount: {

@@ -1,6 +1,6 @@
 <template>
   <div class="essay-list-container">
-    <div class="list-item" v-for="item in essayList">
+    <div class="list-item" v-for="item in essayList" :key="item.id">
       <div class="info">
         <router-link
           :to="{

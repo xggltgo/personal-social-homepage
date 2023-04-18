@@ -68,12 +68,16 @@ async function selectCommentByPage({
   page = 1,
   limit = 20,
   essayid,
+  lifeid,
   keyword = '',
   status,
 }) {
   const where = {};
   if (+essayid) {
     where.essayid = essayid;
+  }
+  if (+lifeid) {
+    where.lifeid = lifeid;
   }
   if (+status) {
     where.status = +status;

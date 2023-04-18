@@ -4,12 +4,14 @@ export async function getCommentByPage({
   page = 1,
   limit = 100,
   essayid = null,
+  lifeid = null,
 }) {
   return await request.get('/api/comment', {
     params: {
       page,
       limit,
       essayid,
+      lifeid
     },
   });
 }

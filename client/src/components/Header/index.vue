@@ -43,7 +43,7 @@
               <QuestionCircleOutlined :style="{ fontSize: 20 + 'px' }" />
               <span class="text">问问题</span>
             </div>
-            <div class="tools-item">
+            <div class="tools-item" @click="showToolModal('life')"> 
               <CameraOutlined :style="{ fontSize: 20 + 'px' }" />
               <span class="text">发动态</span>
             </div>
@@ -144,7 +144,8 @@
     width="100%"
     wrap-class-name="full-modal"
   >
-    <EssayModal @closeToolModal="hideToolModal" />
+    <EssayModal @closeToolModal="hideToolModal" v-if="toolmodel === 'essay'" />
+    <LifeModal @closeToolModal="hideToolModal" v-else-if="toolmodel === 'life'" />
   </a-modal>
 </template>
 
@@ -164,6 +165,7 @@ import {
 import LoginForm from './components/LoginForm.vue';
 import UserCard from './components/UserCrad.vue';
 import EssayModal from '@/components/EssayModal/index.vue';
+import LifeModal from '@/components/LifeModal/index.vue';
 import { useUserStore } from '@/stores/user';
 
 const userStore = useUserStore();
@@ -174,7 +176,7 @@ const searchText = ref('');
 const visible = ref(false); // 控制登录注册表单是否弹出
 const toolVisible = ref(false); // 控制登录注册表单是否弹出
 const model = ref('登录'); // 控制当前应该弹出登录还是注册
-const toolmodel = ref('essay'); // 控制当前应该弹出登录还是注册
+const toolmodel = ref('essay'); // 控制当前应该弹出文章、问答、动态还是注册
 const isLoading = ref(false);
 watchEffect(() => {
   currentRoute.value = [route.name];
