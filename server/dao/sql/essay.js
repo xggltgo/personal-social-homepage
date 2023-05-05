@@ -2,6 +2,7 @@ const Essay = require('../model/essay');
 const Category = require('../model/category');
 const User = require('../model/user');
 const { Op } = require('sequelize');
+const { selectLifeEssayByUserid } = require('./like');
 
 /**
  * 添加一篇文章到数据库
@@ -56,7 +57,7 @@ async function selectOneEssay(id) {
     ],
     attributes: {
       // 不需要的字段
-      exclude: ['categoryid','userid'],
+      exclude: ['categoryid', 'userid'],
     },
   });
   if (result) {
@@ -74,15 +75,26 @@ async function selectEssayByPage({
   categoryid = -1,
   userid,
   keyword = '',
+  liked,
 }) {
+  let ids;
   const where = {};
-  if (userid) {
-    where.userid = userid;
+  if (liked === 'true') {
+    const result = await selectLifeEssayByUserid(userid);
+    ids = result.map((item) => item.essayid);
+    where.id = {
+      [Op.in]: ids,
+    };
+  } else {
+    if (userid) {
+      where.userid = userid;
+    }
   }
+
   if (+categoryid !== -1) {
     where.categoryid = categoryid;
   }
-  const searchConfig = keyword ? { name: { [Op.like]: `%${keyword}%` } } : {};
+  const searchConfig = keyword ? { title: { [Op.like]: `%${keyword}%` } } : {};
   const result = await Essay.findAndCountAll({
     where: {
       ...where,
@@ -102,6 +114,9 @@ async function selectEssayByPage({
         model: User,
         as: 'user',
       },
+    ],
+    order: [
+      ['createDate', 'DESC'], // 按照 createDate 字段降序排序
     ],
   });
 

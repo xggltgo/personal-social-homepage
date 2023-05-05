@@ -8,6 +8,8 @@ const {
 } = require('../dao/sql/life');
 const { selectLikeByPage } = require('../dao/sql/like');
 const { updateUserSelfLifeCount } = require('../dao/sql/user');
+const { deleteCommentByLifeid } = require('../dao/sql/comment');
+const { deleteLikeByLifeid } = require('../dao/sql/like');
 
 // 添加动态
 async function addLife(lifeInfo) {
@@ -25,12 +27,18 @@ async function removeLife(id) {
   const { userid } = await selectOneLife(id);
   // 更新用户对应的动态数量
   updateUserSelfLifeCount(userid, -1);
+  // 属于该动态的评论和点赞一并删除
+  deleteCommentByLifeid(id);
+  deleteLikeByLifeid(id);
   return await deleteLife(id);
 }
 
 // 修改动态
 async function modifyLife(id, lifeInfo) {
-  return await updateLife(id, lifeInfo);
+  return await updateLife(id, {
+    ...lifeInfo,
+    images: JSON.stringify(lifeInfo.images),
+  });
 }
 
 // 获取单个动态

@@ -1,6 +1,7 @@
 const Life = require('../model/life');
 const { Op } = require('sequelize');
 const User = require('../model/user');
+const { selectLifeLikesByUserid } = require('./like');
 
 /**
  * 添加一个动态到数据库
@@ -55,9 +56,12 @@ async function selectLifeByPage({
   page = 1,
   limit = 20,
   // categoryid = -1,
+  liked = false,
+  userid,
   keyword = '',
   // status,
 }) {
+  let ids;
   const where = {};
   // if (+categoryid !== -1) {
   //   where.categoryid = categoryid;
@@ -65,7 +69,21 @@ async function selectLifeByPage({
   // if (+status) {
   //   where.status = +status;
   // }
-  const searchConfig = keyword ? { name: { [Op.like]: `%${keyword}%` } } : {};
+  if (liked === 'true') {
+    // 获取当前用户点赞过的lifeid
+    const result = await selectLifeLikesByUserid(userid);
+    ids = result.map((item) => item.lifeid);
+    where.id = {
+      [Op.in]: ids,
+    };
+  } else {
+    if (+userid) {
+      where.userid = +userid;
+    }
+  }
+  const searchConfig = keyword
+    ? { content: { [Op.like]: `%${keyword}%` } }
+    : {};
   const result = await Life.findAndCountAll({
     where: {
       ...where,
@@ -83,8 +101,25 @@ async function selectLifeByPage({
       // 不需要的字段
       exclude: ['userid'],
     },
+    order: [
+      ['createDate', 'DESC'], // 按照 createDate 字段降序排序
+    ],
   });
+  return JSON.parse(JSON.stringify(result));
+}
 
+/**
+ * 根据一个id数组，查询对应的动态
+ * @param {Array} ids id数组
+ */
+async function selectLifeByIds(ids) {
+  const result = await Life.findAll({
+    where: {
+      id: {
+        [Op.in]: ids,
+      },
+    },
+  });
   return JSON.parse(JSON.stringify(result));
 }
 
@@ -108,7 +143,6 @@ async function selectLifeByUserid(userid) {
  * @param {Number} userid userid
  */
 async function updateLikeUsers(lifeid, userid) {
-  console.log(lifeid, userid);
   let { likeUsers } = await Life.findByPk(lifeid);
   likeUsers = JSON.parse(likeUsers);
   if (likeUsers.includes(userid)) {
@@ -118,7 +152,7 @@ async function updateLikeUsers(lifeid, userid) {
   }
   await Life.update(
     {
-      likeUsers:JSON.stringify(likeUsers),
+      likeUsers: JSON.stringify(likeUsers),
     },
     {
       where: {

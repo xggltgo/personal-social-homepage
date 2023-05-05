@@ -14,6 +14,7 @@
         >
         <div class="createDate">{{ formatDateFromNow(item.createDate) }}</div>
         <router-link
+          v-if="item.category"
           :to="{
             name: 'essayCategory',
             params: {
@@ -23,6 +24,7 @@
           class="category"
           >{{ item.category?.name }}</router-link
         >
+        <span class="none" v-else>未分类</span>
       </div>
       <div class="content">
         <div class="left">
@@ -35,6 +37,9 @@
             }"
             class="title"
           >
+            <span class="isAdmin" v-if="item.user?.isAdmin">
+              <a-tag color="#43b3f3">官方</a-tag>
+            </span>
             {{ item.title }}
           </router-link>
           <div class="desc">
@@ -96,7 +101,11 @@
     width="100%"
     wrap-class-name="full-modal"
   >
-    <EssayModal @closeToolModal="hideToolModal" :essayid="essayid" />
+    <EssayModal
+      @closeToolModal="hideToolModal"
+      :essayid="essayid"
+      :key="essayid"
+    />
   </a-modal>
 </template>
 
@@ -121,6 +130,13 @@ import EssayModal from '@/components/EssayModal/index.vue';
 const props = defineProps({
   userid: {
     type: Number,
+  },
+  searchText: {
+    type: String,
+  },
+  liked: {
+    type: Boolean,
+    default: false,
   },
 });
 
@@ -158,6 +174,8 @@ const fetchEssayByPage = async () => {
   const result = await getEssayByPage({
     ...pageInfo.value,
     userid: props.userid,
+    keyword: props.searchText,
+    liked: props.liked,
   });
   essayList.value = result.essayList;
   total.value = result.total;
@@ -170,6 +188,7 @@ const handlePageChange = (page) => {
   router.push({
     name: route.name,
     query: {
+      ...route.query,
       page,
       limit: 10,
     },
@@ -290,6 +309,10 @@ const handleDelete = (essayid) => {
       text-overflow: ellipsis;
       -webkit-box-orient: vertical;
       -webkit-line-clamp: 1;
+      .isAdmin {
+        font-size: 12px;
+        vertical-align: 1px;
+      }
     }
     .desc {
       margin-bottom: 8px;
@@ -336,6 +359,7 @@ const handleDelete = (essayid) => {
     margin-left: 24px;
     background-color: #fff;
     border-radius: 4px;
+    // box-shadow: 0 0 1px rgba(0, 0, 0, 0.5);
     img {
       width: 100%;
       height: 100%;
@@ -348,8 +372,7 @@ const handleDelete = (essayid) => {
 .pager {
   display: flex;
   justify-content: center;
-  padding: 15px 0 30px 0;
-  margin: 24px 0;
+  padding: 30px 0;
 }
 
 .ant-empty {

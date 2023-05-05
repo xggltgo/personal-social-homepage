@@ -18,11 +18,12 @@ async function insertUser(userInfo) {
  * @param {Object} userInfo 用户信息
  * @returns
  */
-async function loginDao({ loginId, loginPwd }) {
+async function loginDao({ loginId, loginPwd, isAdmin = false }) {
   const user = await User.findOne({
     where: {
       loginId,
       loginPwd: md5(loginPwd),
+      isAdmin,
     },
   });
   if (user) {
@@ -85,6 +86,25 @@ async function updateUserSelfEssayCount(id, val) {
   return result;
 }
 /**
+ * 更新用户的 selfIssueCount
+ * @param {Number} id 用户id
+ * @param {Number} val 变化的量 +1 -1
+ */
+async function updateUserSelfIssueCount(id, val) {
+  const { selfIssueCount } = await User.findByPk(id);
+  const result = await User.update(
+    {
+      selfIssueCount: selfIssueCount + val,
+    },
+    {
+      where: {
+        id,
+      },
+    }
+  );
+  return result;
+}
+/**
  * 更新用户的 selfLifeCount
  * @param {Number} id 用户id
  * @param {Number} val 变化的量 +1 -1
@@ -124,4 +144,5 @@ module.exports = {
   selectUserByLoginId,
   updateUserSelfEssayCount,
   updateUserSelfLifeCount,
+  updateUserSelfIssueCount,
 };

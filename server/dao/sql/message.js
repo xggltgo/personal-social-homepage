@@ -81,6 +81,9 @@ async function selectMessageByPage({
       // 不需要的字段
       exclude: ['userid'],
     },
+    order: [
+      ['createDate', 'DESC'], // 按照 createDate 字段降序排序
+    ],
   });
 
   return JSON.parse(JSON.stringify(result));

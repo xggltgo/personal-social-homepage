@@ -27,6 +27,7 @@
         :loading="isLoading"
         enter-button
         allowClear
+        @search="handleSearch"
       />
     </div>
 
@@ -39,11 +40,11 @@
               <FormOutlined :style="{ fontSize: 20 + 'px' }" />
               <span class="text">写文章</span>
             </div>
-            <div class="tools-item">
+            <div class="tools-item" @click="showToolModal('issue')">
               <QuestionCircleOutlined :style="{ fontSize: 20 + 'px' }" />
               <span class="text">问问题</span>
             </div>
-            <div class="tools-item" @click="showToolModal('life')"> 
+            <div class="tools-item" @click="showToolModal('life')">
               <CameraOutlined :style="{ fontSize: 20 + 'px' }" />
               <span class="text">发动态</span>
             </div>
@@ -132,8 +133,8 @@
     :footer="null"
     :width="390"
   >
-    <LoginForm v-if="model === '登录'" @close-modal="hideModal" />
-    <div class="register" v-else>注册</div>
+    <LoginForm @close-modal="hideModal" v-if="model === '登录'" />
+    <RegisterForm @close-modal="hideModal" v-else />
   </a-modal>
 
   <!-- 发布文章、发表问答、发布动态对话框 -->
@@ -145,13 +146,20 @@
     wrap-class-name="full-modal"
   >
     <EssayModal @closeToolModal="hideToolModal" v-if="toolmodel === 'essay'" />
-    <LifeModal @closeToolModal="hideToolModal" v-else-if="toolmodel === 'life'" />
+    <LifeModal
+      @closeToolModal="hideToolModal"
+      v-else-if="toolmodel === 'life'"
+    />
+    <IssueModal
+      @closeToolModal="hideToolModal"
+      v-else-if="toolmodel === 'issue'"
+    />
   </a-modal>
 </template>
 
 <script setup>
 import { ref, watchEffect, computed } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import {
   AndroidOutlined,
   CameraOutlined,
@@ -161,16 +169,20 @@ import {
   ShareAltOutlined,
   MessageOutlined,
 } from '@ant-design/icons-vue';
+import { message } from 'ant-design-vue';
 
 import LoginForm from './components/LoginForm.vue';
+import RegisterForm from './components/RegisterForm.vue';
 import UserCard from './components/UserCrad.vue';
 import EssayModal from '@/components/EssayModal/index.vue';
 import LifeModal from '@/components/LifeModal/index.vue';
+import IssueModal from '@/components/IssueModal/index.vue';
 import { useUserStore } from '@/stores/user';
 
 const userStore = useUserStore();
 const userInfo = computed(() => userStore.userInfo);
 const route = useRoute();
+const router = useRouter();
 const currentRoute = ref([]);
 const searchText = ref('');
 const visible = ref(false); // 控制登录注册表单是否弹出
@@ -182,15 +194,16 @@ watchEffect(() => {
   currentRoute.value = [route.name];
 });
 const routes = [
-  {
-    path: '/',
-    name: 'home',
-    display: '首页',
-  },
+  // {
+  //   path: '/',
+  //   name: 'home',
+  //   display: '首页',
+  // },
   {
     path: '/essay',
     name: 'essay',
-    display: '文章',
+    // display: '文章',
+    display: '首页',
   },
   {
     path: '/issue',
@@ -230,12 +243,30 @@ const handleToolOk = (e) => {
 
 //显示新增文章、问答、动态的对话框
 const showToolModal = (text) => {
+  // 判断用户是否登录，如果没有登录提示用户优先登录
+  if (!userStore.userInfo) {
+    message.error('请先登录');
+    return;
+  }
   toolmodel.value = text;
   toolVisible.value = true;
 };
 
 const hideToolModal = () => {
   toolVisible.value = false;
+};
+
+const handleSearch = (value) => {
+  if (!value) {
+    message.error('请先填写搜索内容');
+    return;
+  }
+  router.push({
+    name: 'search',
+    query: {
+      searchText: value,
+    },
+  });
 };
 </script>
 

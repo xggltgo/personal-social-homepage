@@ -4,6 +4,7 @@ export async function getCommentByPage({
   page = 1,
   limit = 100,
   essayid = null,
+  issueid = null,
   lifeid = null,
 }) {
   return await request.get('/api/comment', {
@@ -11,7 +12,8 @@ export async function getCommentByPage({
       page,
       limit,
       essayid,
-      lifeid
+      issueid,
+      lifeid,
     },
   });
 }

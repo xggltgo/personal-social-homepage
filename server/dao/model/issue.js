@@ -36,6 +36,12 @@ const Issue = sequelize.define(
       allowNull: false,
       defaultValue: 0,
     },
+    // 点赞量
+    likeCount: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      defaultValue: 0,
+    },
     // 问答发布时间
     createDate: {
       type: DataTypes.STRING,

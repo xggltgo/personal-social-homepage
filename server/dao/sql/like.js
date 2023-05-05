@@ -1,5 +1,8 @@
 const Like = require('../model/like');
 const User = require('../model/user');
+const Essay = require('../model/essay');
+const Issue = require('../model/issue');
+const Life = require('../model/life');
 const { Op } = require('sequelize');
 
 /**
@@ -31,6 +34,28 @@ async function deleteLikeByEssayid(essayid) {
   await Like.destroy({
     where: {
       essayid,
+    },
+  });
+}
+/**
+ * 根据issueid从数据库批量删除赞
+ * @param {Number} issueid
+ */
+async function deleteLikeByIssueid(issueid) {
+  await Like.destroy({
+    where: {
+      issueid,
+    },
+  });
+}
+/**
+ * 根据lifeid从数据库批量删除赞
+ * @param {Number} lifeid
+ */
+async function deleteLikeByLifeid(lifeid) {
+  await Like.destroy({
+    where: {
+      lifeid,
     },
   });
 }
@@ -74,6 +99,19 @@ async function selectLikeByUseridAndEssayid(userid, essayid) {
   return null;
 }
 
+async function selectLikeByUseridAndIssueid(userid, issueid) {
+  const result = await Like.findOne({
+    where: {
+      userid,
+      issueid,
+    },
+  });
+  if (result) {
+    return result.toJSON();
+  }
+  return null;
+}
+
 async function selectLikeByUseridAndLifeid(userid, lifeid) {
   const result = await Like.findOne({
     where: {
@@ -92,21 +130,25 @@ async function selectLikeByUseridAndLifeid(userid, lifeid) {
  */
 async function selectLikeByPage({
   page = 1,
-  limit = 20,
+  limit = 10000,
   essayid,
+  issueid,
   lifeid,
+  userid,
   keyword = '',
-  status,
 }) {
   const where = {};
   if (+essayid) {
     where.essayid = essayid;
   }
+  if (+issueid) {
+    where.issueid = issueid;
+  }
   if (+lifeid) {
     where.lifeid = lifeid;
   }
-  if (+status) {
-    where.status = +status;
+  if (+userid) {
+    where.userid = userid;
   }
   const searchConfig = keyword ? { name: { [Op.like]: `%${keyword}%` } } : {};
   const result = await Like.findAndCountAll({
@@ -116,10 +158,24 @@ async function selectLikeByPage({
     },
     offset: (+page - 1) * +limit,
     limit: +limit,
-    include: {
-      model: User,
-      as: 'user',
-    },
+    include: [
+      {
+        model: User,
+        as: 'user',
+      },
+      {
+        model: Essay,
+        as: 'essay',
+      },
+      {
+        model: Issue,
+        as: 'issue',
+      },
+      {
+        model: Life,
+        as: 'life',
+      },
+    ],
     attributes: {
       // 不需要的字段
       exclude: ['userid'],
@@ -146,6 +202,40 @@ async function selectLifeLikesByUserid(userid) {
   return JSON.parse(JSON.stringify(result));
 }
 
+/**
+ * 根据用户id查询该用户点赞的所有文章
+ * @param {Number} userid 用户id
+ */
+async function selectLifeEssayByUserid(userid) {
+  const result = await Like.findAll({
+    where: {
+      userid,
+      essayid: {
+        [Op.not]: null,
+      },
+    },
+  });
+
+  return JSON.parse(JSON.stringify(result));
+}
+
+/**
+ * 根据用户id查询该用户点赞的所有问答
+ * @param {Number} userid 用户id
+ */
+async function selectLifeIssueByUserid(userid) {
+  const result = await Like.findAll({
+    where: {
+      userid,
+      issueid: {
+        [Op.not]: null,
+      },
+    },
+  });
+
+  return JSON.parse(JSON.stringify(result));
+}
+
 module.exports = {
   createLike,
   deleteLike,
@@ -154,6 +244,11 @@ module.exports = {
   selectLikeByPage,
   selectLikeByUseridAndEssayid,
   selectLikeByUseridAndLifeid,
+  selectLikeByUseridAndIssueid,
+  selectLifeIssueByUserid,
+  selectLifeEssayByUserid,
   selectLifeLikesByUserid,
   deleteLikeByEssayid,
+  deleteLikeByLifeid,
+  deleteLikeByIssueid,
 };

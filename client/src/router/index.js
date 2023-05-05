@@ -1,4 +1,31 @@
 import { createRouter, createWebHistory } from 'vue-router';
+import 'nprogress/nprogress.css';
+import { start, done, configure } from 'nprogress';
+
+configure({
+  trickleSpeed: 20,
+  showSpinner: false,
+});
+
+function delay(duration) {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve();
+    }, duration);
+  });
+}
+
+function getPageComponent(pageCompResolver) {
+  return async () => {
+    start();
+    if (process.env.NODE_ENV === 'development') {
+      // await delay(2000);
+    }
+    const comp = await pageCompResolver();
+    done();
+    return comp;
+  };
+}
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -6,47 +33,58 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: () => import('../views/home/index.vue'),
+      // component: () => import('../views/home/index.vue'),
+      redirect: { name: 'essay' },
     },
     {
       path: '/essay',
       name: 'essay',
-      component: () => import('../views/essay/index.vue'),
+      component: getPageComponent(() => import('../views/essay/index.vue')),
     },
     {
       path: '/essay/category/:categoryid',
       name: 'essayCategory',
-      component: () => import('../views/essay/index.vue'),
+      component: getPageComponent(() => import('../views/essay/index.vue')),
     },
     {
       path: '/essay/detail/:essayid',
       name: 'essayDetail',
-      component: () => import('../views/essay/detail.vue'),
+      component: getPageComponent(() => import('../views/essay/detail.vue')),
     },
     {
       path: '/issue',
       name: 'issue',
-      component: () => import('../views/issue/index.vue'),
+      component: getPageComponent(() => import('../views/issue/index.vue')),
+    },
+    {
+      path: '/issue/detail/:issueid',
+      name: 'issueDetail',
+      component: getPageComponent(() => import('../views/issue/detail.vue')),
     },
     {
       path: '/life',
       name: 'life',
-      component: () => import('../views/life/index.vue'),
+      component: getPageComponent(() => import('../views/life/index.vue')),
     },
     {
       path: '/message',
       name: 'message',
-      component: () => import('../views/message/index.vue'),
+      component: getPageComponent(() => import('../views/message/index.vue')),
     },
     {
       path: '/user/detail/:userid',
       name: 'user',
-      component: () => import('../views/user/index.vue'),
+      component: getPageComponent(() => import('../views/user/index.vue')),
     },
     {
       path: '/result',
       name: 'result',
-      component: () => import('../views/result/index.vue'),
+      component: getPageComponent(() => import('../views/result/index.vue')),
+    },
+    {
+      path: '/search',
+      name: 'search',
+      component: getPageComponent(() => import('../views/search/index.vue')),
     },
   ],
 });

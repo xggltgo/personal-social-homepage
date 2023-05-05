@@ -7,10 +7,12 @@ const { formatResponse } = require('../utils/tools');
 
 // 配置存储引擎
 const storage = multer.diskStorage({
-  destination: function (req, file, cb) { //存储路径
+  destination: function (req, file, cb) {
+    //存储路径
     cb(null, path.resolve(__dirname, '../public/static/upload'));
   },
-  filename: function (req, file, cb) { //存储文件名的格式
+  filename: function (req, file, cb) {
+    //存储文件名的格式
     const timeStamp = Date.now();
     const ramdomStr = Math.random().toString(36).substring(2, 8);
     const ext = path.extname(file.originalname);
@@ -21,8 +23,9 @@ const storage = multer.diskStorage({
 
 const upload = multer({
   storage,
-  limits: { // 配置图片限制
-    fileSize: 1024 * 1024,
+  limits: {
+    // 配置图片限制
+    fileSize: 1024 * 1024 * 2,
   },
 }).single('file');
 

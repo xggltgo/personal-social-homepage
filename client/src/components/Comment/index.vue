@@ -2,7 +2,7 @@
   <div class="conment-container">
     <div class="title">{{ titleText }}</div>
     <div class="content">
-      <a-avatar :size="45" :src="userStore.userInfo?.avatar"></a-avatar>
+      <a-avatar :size="45" :src="userStore.userInfo?.avatar">未登录</a-avatar>
       <div class="inp">
         <a-textarea
           v-model:value="messageText"
@@ -15,10 +15,15 @@
       </div>
     </div>
     <div class="btn">
-      <a-button type="primary" @click="sendData" :loading="isLoading"
-        >发表{{ titleText }}</a-button
+      <a-button
+        type="primary"
+        @click="sendData"
+        :loading="isLoading"
+        :disabled="userStore.userInfo === null"
+        >{{ userStore.userInfo ? `发表${titleText}` : '请先登录' }}</a-button
       >
     </div>
+    <div class="tips"></div>
   </div>
 </template>
 
@@ -27,7 +32,7 @@ import { ref } from 'vue';
 import { message } from 'ant-design-vue';
 import { useUserStore } from '@/stores/user';
 
-defineProps({
+const props = defineProps({
   titleText: {
     type: String,
     default: '评论',
@@ -41,6 +46,10 @@ const messageText = ref('');
 const isLoading = ref(false);
 
 const sendData = () => {
+  if (!messageText.value) {
+    message.error(`请填写${props.titleText}内容`);
+    return;
+  }
   isLoading.value = true;
   emit('send', messageText.value, (successText) => {
     isLoading.value = false;
@@ -48,7 +57,6 @@ const sendData = () => {
     message.success(successText);
   });
 };
-
 </script>
 
 <style lang="less" scoped>

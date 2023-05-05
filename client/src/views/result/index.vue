@@ -2,14 +2,16 @@
   <div class="result-container">
     <a-result
       status="success"
-      :title="`${route.query.essayid ? '《' : '“'}${route.query.title}${route.query.essayid ? '》' : '”'}`"
+      :title="`${route.query.essayid ? '《' : '“'}${route.query.title}${
+        route.query.essayid ? '》' : '”'
+      }`"
       sub-title="发布成功！有了你的分享， PH 会变得更好！"
     >
       <template #extra>
         <a-button key="console" type="primary" @click="backHome"
           >回到首页</a-button
         >
-        <a-button key="buy" v-if="route.query.essayid">
+        <a-button key="essay-btn" v-if="route.query.essayid">
           <router-link
             :to="{
               name: 'essayDetail',
@@ -18,6 +20,17 @@
               },
             }"
             >查看文章</router-link
+          >
+        </a-button>
+        <a-button key="issue-btn" v-else-if="route.query.issueid">
+          <router-link
+            :to="{
+              name: 'issueDetail',
+              params: {
+                issueid: route.query.issueid,
+              },
+            }"
+            >查看问答</router-link
           >
         </a-button>
       </template>

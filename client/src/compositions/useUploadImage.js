@@ -26,9 +26,10 @@ export default function useUploadImage() {
     if (!isJpgOrPng) {
       message.error('You can only upload JPG file!');
     }
-    const isLt2M = file.size / 1024 / 1024 < 1;
+    const isLt2M = file.size / 1024 / 1024 < 2;
+    console.log(isLt2M);
     if (!isLt2M) {
-      message.error('Image must smaller than 1MB!');
+      message.error('Image must smaller than 2MB!');
     }
     return isJpgOrPng && isLt2M;
   };

@@ -7,6 +7,7 @@ const {
 } = require('../dao/sql/comment');
 
 const { updateEssay, updateEssayCount } = require('../dao/sql/essay');
+const { updateIssueCount } = require('../dao/sql/issue');
 
 // 添加评论
 async function addComment(commentInfo) {
@@ -15,7 +16,7 @@ async function addComment(commentInfo) {
   if (essayid) {
     updateEssayCount(essayid, 'comment');
   } else if (issueid) {
-  } else if (lifeid) {
+    updateIssueCount(issueid, 'comment');
   }
   return await createComment({
     ...commentInfo,

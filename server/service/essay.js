@@ -32,11 +32,14 @@ async function addEssay(essayInfo) {
 // 删除文章
 async function removeEssay(id) {
   const {
-    category: { id: categoryid },
+    category,
     user: { id: userid },
   } = await selectOneEssay(id);
+
   // 更新分类下的文章数量
-  updateCategoryCount(categoryid, -1);
+  if (category) {
+    updateCategoryCount(category.id, -1);
+  }
   // 更新用户对应的文章数量
   updateUserSelfEssayCount(userid, -1);
   // 属于该文章的评论和点赞一并删除

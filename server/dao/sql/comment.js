@@ -36,6 +36,30 @@ async function deleteCommentByEssayid(essayid) {
 }
 
 /**
+ * 根据issueid从数据库批量删除评论
+ * @param {Number} issueid
+ */
+async function deleteCommentByIssueid(issueid) {
+  await Comment.destroy({
+    where: {
+      issueid,
+    },
+  });
+}
+
+/**
+ * 根据lifeid从数据库批量删除评论
+ * @param {Number} lifeid
+ */
+async function deleteCommentByLifeid(lifeid) {
+  await Comment.destroy({
+    where: {
+      lifeid,
+    },
+  });
+}
+
+/**
  * 从数据库修改一条评论
  * @param {Number} id 评论id
  * @param {Object} commentInfo 评论信息
@@ -66,15 +90,19 @@ async function selectOneComment(id) {
  */
 async function selectCommentByPage({
   page = 1,
-  limit = 20,
+  limit = 1000,
   essayid,
   lifeid,
+  issueid,
   keyword = '',
   status,
 }) {
   const where = {};
   if (+essayid) {
     where.essayid = essayid;
+  }
+  if (+issueid) {
+    where.issueid = issueid;
   }
   if (+lifeid) {
     where.lifeid = lifeid;
@@ -109,5 +137,7 @@ module.exports = {
   updateComment,
   selectOneComment,
   selectCommentByPage,
-  deleteCommentByEssayid
+  deleteCommentByEssayid,
+  deleteCommentByLifeid,
+  deleteCommentByIssueid,
 };

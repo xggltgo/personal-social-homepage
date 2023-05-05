@@ -10,7 +10,6 @@
         </div>
       </div>
       <aside class="aside">
-        <div class="pager"></div>
       </aside>
     </div>
   </div>

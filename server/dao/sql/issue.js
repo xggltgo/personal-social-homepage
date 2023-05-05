@@ -1,5 +1,7 @@
 const Issue = require('../model/issue');
 const { Op } = require('sequelize');
+const User = require('../model/user');
+const { selectLifeIssueByUserid } = require('./like');
 
 /**
  * 添加一个问答到数据库
@@ -40,7 +42,18 @@ async function updateIssue(id, issueInfo) {
  * @param {Number} id 问答id
  */
 async function selectOneIssue(id) {
-  const result = await Issue.findByPk(id);
+  const result = await Issue.findByPk(id, {
+    include: [
+      {
+        model: User,
+        as: 'user',
+      },
+    ],
+    attributes: {
+      // 不需要的字段
+      exclude: ['userid'],
+    },
+  });
   if (result) {
     return result.toJSON();
   }
@@ -53,18 +66,33 @@ async function selectOneIssue(id) {
 async function selectIssueByPage({
   page = 1,
   limit = 20,
-  categoryid = -1,
+  // categoryid = -1,
   keyword = '',
-  status,
+  userid,
+  liked,
+  // status,
 }) {
+  let ids;
   const where = {};
-  if (+categoryid !== -1) {
-    where.categoryid = categoryid;
+  // if (+categoryid !== -1) {
+  //   where.categoryid = categoryid;
+  // }
+  // if (+status) {
+  //   where.status = +status;
+  // }
+  if (liked === 'true') {
+    // 获取当前用户点赞过的lifeid
+    const result = await selectLifeIssueByUserid(userid);
+    ids = result.map((item) => item.issueid);
+    where.id = {
+      [Op.in]: ids,
+    };
+  } else {
+    if (+userid) {
+      where.userid = +userid;
+    }
   }
-  if (+status) {
-    where.status = +status;
-  }
-  const searchConfig = keyword ? { name: { [Op.like]: `%${keyword}%` } } : {};
+  const searchConfig = keyword ? { title: { [Op.like]: `%${keyword}%` } } : {};
   const result = await Issue.findAndCountAll({
     where: {
       ...where,
@@ -72,6 +100,19 @@ async function selectIssueByPage({
     },
     offset: (+page - 1) * +limit,
     limit: +limit,
+    include: [
+      {
+        model: User,
+        as: 'user',
+      },
+    ],
+    attributes: {
+      // 不需要的字段
+      exclude: ['userid'],
+    },
+    order: [
+      ['createDate', 'DESC'], // 按照 createDate 字段降序排序
+    ],  
   });
 
   return JSON.parse(JSON.stringify(result));
@@ -91,11 +132,56 @@ async function selectIssueByUserid(userid) {
   return JSON.parse(JSON.stringify(result));
 }
 
+/**
+ * 更新问答对应的评论或浏览或点赞量
+ * @param {Number} id 问答id
+ * @param {String} countType count类型
+ * @param {Number} n +1 或 -1
+ */
+async function updateIssueCount(id, countType, n = 1) {
+  const { scanCount, commentCount, likeCount } = await Issue.findByPk(id);
+  if (countType === 'scan') {
+    await Issue.update(
+      {
+        scanCount: scanCount + n,
+      },
+      {
+        where: {
+          id,
+        },
+      }
+    );
+  } else if (countType === 'comment') {
+    await Issue.update(
+      {
+        commentCount: commentCount + n,
+      },
+      {
+        where: {
+          id,
+        },
+      }
+    );
+  } else if (countType === 'like') {
+    await Issue.update(
+      {
+        likeCount: likeCount + n,
+      },
+      {
+        where: {
+          id,
+        },
+      }
+    );
+  }
+}
+
 module.exports = {
   createIssue,
   deleteIssue,
   updateIssue,
   selectOneIssue,
   selectIssueByPage,
-  selectIssueByUserid
+  selectIssueByUserid,
+  updateIssueCount,
 };

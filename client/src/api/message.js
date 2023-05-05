@@ -7,6 +7,8 @@ export async function getAllMessages() {
   });
 }
 
+
+
 export async function addMessage(data) {
   return await request.post('/api/message',data);
 }

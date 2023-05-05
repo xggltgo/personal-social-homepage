@@ -63,7 +63,7 @@
           </div>
         </a-upload>
         <div class="text">我的头像</div>
-        <div class="tips">支持 jpg、png、jpeg 格式大小 1M 以内的图片</div>
+        <div class="tips">支持 jpg、png、jpeg 格式大小 2M 以内的图片</div>
       </div>
     </div>
     <div class="btn">
@@ -78,6 +78,7 @@ import useUploadImage from '@/compositions/useUploadImage';
 import { PlusOutlined, LoadingOutlined } from '@ant-design/icons-vue';
 import { useUserStore } from '@/stores/user';
 import { updateUserInfo } from '@/api/user';
+import { message } from 'ant-design-vue';
 
 const emit = defineEmits(['closeModal']);
 const userStore = useUserStore();
@@ -91,6 +92,10 @@ const formState = reactive({
 imageUrl.value = userStore.userInfo?.avatar;
 
 const handleChangeUserInfo = async () => {
+  if (!formState.nickname) {
+    message.error('昵称不能为空');
+    return;
+  }
   const data = {
     ...formState,
     avatar: imageUrl.value,
@@ -154,23 +159,22 @@ const handleChangeUserInfo = async () => {
         line-height: 17px;
         font-weight: 400;
       }
+      .ant-upload-picture-card-wrapper {
+        border-radius: 50%;
+        .ant-upload-select-picture-card {
+          border-radius: 50%;
+          img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+          }
+        }
+      }
     }
   }
   .btn {
     margin-left: 75px;
-  }
-}
-
-.ant-upload-picture-card-wrapper {
-  border-radius: 50%;
-  .ant-upload-select-picture-card {
-    border-radius: 50%;
-    img {
-      width: 100%;
-      height: 100%;
-      border-radius: 50%;
-      object-fit: cover;
-    }
   }
 }
 </style>

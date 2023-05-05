@@ -6,9 +6,11 @@ const {
   selectLikeByPage,
   selectLikeByUseridAndEssayid,
   selectLikeByUseridAndLifeid,
+  selectLikeByUseridAndIssueid,
 } = require('../dao/sql/like');
 
 const { updateEssay, updateEssayCount } = require('../dao/sql/essay');
+const { updateIssueCount } = require('../dao/sql/issue');
 
 // 添加赞
 async function addLike(likeInfo) {
@@ -27,6 +29,17 @@ async function addLike(likeInfo) {
       updateEssayCount(essayid, 'like');
     }
   } else if (issueid) {
+    // 点赞或取消点赞问答
+    // 1.判断用户是否已经点赞过该问答
+    const result = await selectLikeByUseridAndIssueid(userid, issueid);
+    if (result) {
+      // 取消点赞
+      updateIssueCount(issueid, 'like', -1);
+      await deleteLike(result.id);
+      return null;
+    } else {
+      updateIssueCount(issueid, 'like');
+    }
   } else if (lifeid) {
     // 点赞或取消点赞动态
     // 1.判断用户是否已经点赞过该动态
@@ -59,6 +72,8 @@ async function getOneLike(likeInfo) {
   const { essayid, issueid, lifeid, userid } = likeInfo;
   if (essayid) {
     return await selectLikeByUseridAndEssayid(userid, essayid);
+  } else if (issueid) {
+    return await selectLikeByUseridAndIssueid(userid, issueid);
   }
 }
 
@@ -70,6 +85,8 @@ async function getLikeByPage(pageInfo) {
     likeList: rows,
   };
 }
+
+
 
 module.exports = {
   addLike,

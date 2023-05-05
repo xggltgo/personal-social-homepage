@@ -14,7 +14,7 @@
       </a-form-item>
 
       <!-- 文章内容 -->
-      <a-form-item label="文章内容" name="title">
+      <a-form-item label="文章内容" name="content">
         <div id="vditor" />
       </a-form-item>
 
@@ -69,7 +69,7 @@
 
       <!-- 发布博客 -->
       <a-form-item>
-        <a-button type="primary" html-type="submit"> 发布博客 </a-button>
+        <a-button type="primary" html-type="submit"> 发布文章 </a-button>
       </a-form-item>
     </a-form>
   </div>
@@ -148,6 +148,8 @@ const onFinish = async () => {
     essayid = id;
   } else {
     const { id } = await addEssay(data);
+    // 更新本地仓库用户信息
+    userStore.userInfo.selfEssayCount += 1;
     essayid = id;
   }
 

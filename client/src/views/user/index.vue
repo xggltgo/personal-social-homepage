@@ -13,7 +13,7 @@
                 class="profession"
                 @click="showModal('check')"
                 v-if="userInfo.profession"
-                :class="userInfo.id !== userStore.userInfo.id ? '' : 'isSelf'"
+                :class="userInfo.id !== userStore.userInfo?.id ? '' : 'isSelf'"
               >
                 <div class="icon">
                   <TagsOutlined />
@@ -22,7 +22,7 @@
               </div>
               <div
                 class="profession"
-                :class="userInfo.id !== userStore.userInfo.id ? '' : 'isSelf'"
+                :class="userInfo.id !== userStore.userInfo?.id ? '' : 'isSelf'"
                 @click="showModal('check')"
                 v-else
               >
@@ -33,7 +33,7 @@
               </div>
               <div
                 class="selfIntroduction"
-                :class="userInfo.id !== userStore.userInfo.id ? '' : 'isSelf'"
+                :class="userInfo.id !== userStore.userInfo?.id ? '' : 'isSelf'"
                 @click="showModal('check')"
                 v-if="userInfo.selfIntroduction"
               >
@@ -44,7 +44,7 @@
               </div>
               <div
                 class="selfIntroduction"
-                :class="userInfo.id !== userStore.userInfo.id ? '' : 'isSelf'"
+                :class="userInfo.id !== userStore.userInfo?.id ? '' : 'isSelf'"
                 @click="showModal('check')"
                 v-else
               >
@@ -61,7 +61,7 @@
         </div>
       </div>
       <div class="all-list">
-        <a-tabs v-model:activeKey="activeKey">
+        <a-tabs v-model:activeKey="activeKey" @change="handleChange">
           <a-tab-pane key="1" tab="文章">
             <a-empty
               description="暂无对应内容"
@@ -76,6 +76,7 @@
               :image="simpleImage"
               v-if="issueList.length === 0"
             />
+            <IssueList :userid="+route.params.userid" v-else />
           </a-tab-pane>
           <a-tab-pane key="3" tab="动态">
             <a-empty
@@ -83,6 +84,20 @@
               :image="simpleImage"
               v-if="lifeList.length === 0"
             />
+            <LifeList :userid="+route.params.userid" v-else />
+          </a-tab-pane>
+          <a-tab-pane key="4" tab="点赞">
+            <a-tabs v-model:activeKey="subActiveKey" @change="handleChange">
+              <a-tab-pane key="4-1" tab="点赞的文章" force-render>
+                <EssayList :userid="+route.params.userid" :liked="true" />
+              </a-tab-pane>
+              <a-tab-pane key="4-2" tab="点赞的问答" force-render>
+                <IssueList :userid="+route.params.userid" :liked="true" />
+              </a-tab-pane>
+              <a-tab-pane key="4-3" tab="点赞的动态" force-render>
+                <LifeList :userid="+route.params.userid" :liked="true" />
+              </a-tab-pane>
+            </a-tabs>
           </a-tab-pane>
         </a-tabs>
       </div>
@@ -112,10 +127,12 @@
 
 <script setup>
 import { ref, computed } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { getUserInfoById } from '@/api/user';
 import { Empty } from 'ant-design-vue';
 import EssayList from '@/views/essay/components/EssayList.vue';
+import IssueList from '@/views/issue/components/IssueList.vue';
+import LifeList from '@/views/life/components/LifeList.vue';
 import Aside from '@/components/Aside/index.vue';
 import {
   PlusOutlined,
@@ -127,12 +144,14 @@ import { formatLocaleTime } from '@/utils/tools';
 import SelfInfoForm from './components/SelfInfoForm.vue';
 
 const route = useRoute();
+const router = useRouter();
 const userInfo = ref({});
 const essayList = ref([]);
 const issueList = ref([]);
 const lifeList = ref([]);
 const userStore = useUserStore();
 const activeKey = ref('1');
+const subActiveKey = ref('4-1');
 const visible = ref(false);
 const simpleImage = Empty.PRESENTED_IMAGE_SIMPLE;
 
@@ -144,7 +163,7 @@ const handleOk = (e) => {
 
 const showModal = (check) => {
   if (check === 'check') {
-    if (userInfo.value.id !== userStore.userInfo.id) {
+    if (userInfo.value.id !== userStore.userInfo?.id) {
       return;
     }
   }
@@ -164,6 +183,16 @@ const fetchAllUserInfo = async () => {
   lifeList.value = result.lifeList;
 };
 fetchAllUserInfo();
+
+const handleChange = () => {
+  router.push({
+    name: route.name,
+    query: {
+      ...route.query,
+      page: 1,
+    },
+  });
+};
 </script>
 
 <style lang="less" scoped>

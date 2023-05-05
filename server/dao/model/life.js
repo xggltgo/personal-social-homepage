@@ -12,7 +12,7 @@ const Life = sequelize.define(
     // 图片数组
     images: {
       type: DataTypes.TEXT,
-      allowNull: false,
+      // allowNull: false,
     },
     // 所有点赞的用户id
     // likeUsers: {

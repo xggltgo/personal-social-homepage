@@ -1,38 +1,20 @@
 <template>
   <div class="life-modal-container">
     <a-form :model="formState" layout="vertical" @finish="onFinish">
-      <!-- 文章标题 -->
+      <!-- 动态文字 -->
       <a-form-item name="title">
         <a-textarea
           v-model:value="formState.content"
           placeholder="这一刻的想法..."
           size="large"
           show-count
-          :maxlength="30"
+          :maxlength="100"
           :bordered="false"
         />
       </a-form-item>
 
-      <!-- 文章头图 -->
+      <!-- 动态图片 -->
       <a-form-item name="images">
-        <!-- <a-upload
-          v-model:file-list="fileList"
-          name="file"
-          list-type="picture-card"
-          :headers="headers"
-          class="avatar-uploader"
-          :show-upload-list="false"
-          action="/api/upload"
-          :before-upload="beforeUpload"
-          @change="handleChange"
-        >
-          <img v-if="imageUrl" :src="imageUrl" alt="avatar" />
-          <div v-else>
-            <loading-outlined v-if="loading"></loading-outlined>
-            <plus-outlined v-else></plus-outlined>
-            <div class="ant-upload-text">Upload</div>
-          </div>
-        </a-upload> -->
         <a-upload
           v-model:file-list="formState.images"
           action="/api/upload"
@@ -71,9 +53,9 @@ import { PlusOutlined } from '@ant-design/icons-vue';
 import { message } from 'ant-design-vue';
 import { useRouter } from 'vue-router';
 
-
 import { useUserStore } from '@/stores/user';
-import { addLife } from '@/api/life';
+import { addLife, getLife, upadteLife } from '@/api/life';
+import useUploadImages from './compositions/useUploadImages';
 
 const props = defineProps({
   lifeid: {
@@ -81,6 +63,7 @@ const props = defineProps({
   },
 });
 const emit = defineEmits(['closeToolModal']);
+
 const userStore = useUserStore();
 const router = useRouter();
 const formState = reactive({
@@ -88,22 +71,18 @@ const formState = reactive({
   images: [],
 });
 
-const headers = {
-  Authorization: 'Bearer ' + localStorage.getItem('token'),
-};
-
-const beforeUpload = (file) => {
-  const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
-  if (!isJpgOrPng) {
-    message.error('You can only upload JPG file!');
+//如果父元素传递了lifeid，需要数据回填
+(async () => {
+  if (props.lifeid) {
+    const result = await getLife(props.lifeid);
+    formState.content = result.content;
+    formState.images = result.images.map((image) => ({
+      url: image,
+    }));
   }
-  const isLt2M = file.size / 1024 / 1024 < 1;
-  if (!isLt2M) {
-    message.error('Image must smaller than 1MB!');
-  }
-  return isJpgOrPng && isLt2M;
-};
+})();
 
+const { headers, beforeUpload, handlePreview } = useUploadImages();
 const previewVisible = ref(false);
 const previewImage = ref('');
 const previewTitle = ref('');
@@ -111,20 +90,15 @@ const handleCancel = () => {
   previewVisible.value = false;
   previewTitle.value = '';
 };
-const handlePreview = async (file) => {
-  console.log(file.response.data);
-  previewImage.value = file.response.data;
-  previewVisible.value = true;
-  previewTitle.value =
-    file.name || file.url.substring(file.url.lastIndexOf('/') + 1);
-};
 
 const onFinish = async () => {
   // 组装数据
-
+  console.log(formState.images);
   const data = {
     content: formState.content,
-    images: formState.images.map((item) => item.response.data),
+    images: formState.images.map((item) =>
+      item.url ? item.url : item.response.data
+    ),
     userid: userStore.userInfo.id,
   };
 
@@ -134,11 +108,10 @@ const onFinish = async () => {
   }
 
   if (props.lifeid) {
-    // const { id } = await upadteEssay(props.essayid, data);
-    // essayid = id;
+    const result = await upadteLife(props.lifeid, data);
   } else {
     const result = await addLife(data);
-    console.log(result);
+    userStore.userInfo.selfLifeCount += 1;
   }
   // 清空表单项
   formState.content = '';
