@@ -69,7 +69,7 @@
 
       <!-- 发布博客 -->
       <a-form-item>
-        <a-button type="primary" html-type="submit"> 发布博客 </a-button>
+        <a-button type="primary" html-type="submit"> 发布文章 </a-button>
       </a-form-item>
     </a-form>
   </div>
@@ -143,6 +143,7 @@ const onFinish = async () => {
   router.push({
     name: 'essayList',
   });
+  message.success('添加文章成功！');
 };
 
 // 获取所有文章分类

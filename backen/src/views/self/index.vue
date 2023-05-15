@@ -1,78 +1,80 @@
 <template>
-  <div class="self-info-form-container">
-    <div class="title">个人资料</div>
-    <div class="info">
-      <div class="left">
-        <a-divider />
-        <div class="left-item">
-          <label class="label">昵称</label>
-          <div class="inp">
+  <div class="self-container">
+    <h1 class="title">个人中心</h1>
+    <div class="content">
+      <div class="info">
+        <div class="left">
+          <a-divider />
+          <div class="left-item">
+            <label class="label">昵称</label>
+            <div class="inp">
+              <a-input
+                v-model:value="formState.nickname"
+                placeholder="请输入昵称"
+                show-count
+                :maxlength="20"
+                allow-clear
+              />
+            </div>
+          </div>
+          <a-divider />
+          <div class="left-item">
+            <label class="label">职业</label>
             <a-input
-              v-model:value="formState.nickname"
-              placeholder="请输入昵称"
+              v-model:value="formState.profession"
+              placeholder="请输入职业"
               show-count
-              :maxlength="20"
+              :maxlength="50"
               allow-clear
             />
           </div>
-        </div>
-        <a-divider />
-        <div class="left-item">
-          <label class="label">职业</label>
-          <a-input
-            v-model:value="formState.profession"
-            placeholder="请输入职业"
-            show-count
-            :maxlength="50"
-            allow-clear
-          />
-        </div>
-        <a-divider />
-        <div class="left-item">
-          <label class="label">自我介绍</label>
-          <div class="inp">
-            <a-textarea
-              v-model:value="formState.selfIntroduction"
-              placeholder="请输入自我介绍"
-              show-count
-              :auto-size="{ minRows: 3, maxRows: 5 }"
-              :maxlength="100"
-              allow-clear
-            />
+          <a-divider />
+          <div class="left-item">
+            <label class="label">自我介绍</label>
+            <div class="inp">
+              <a-textarea
+                v-model:value="formState.selfIntroduction"
+                placeholder="请输入自我介绍"
+                show-count
+                :auto-size="{ minRows: 3, maxRows: 5 }"
+                :maxlength="100"
+                allow-clear
+              />
+            </div>
           </div>
+          <a-divider />
         </div>
-        <a-divider />
+        <div class="avatar">
+          <a-upload
+            v-model:file-list="fileList"
+            name="file"
+            list-type="picture-card"
+            :headers="headers"
+            class="avatar-uploader"
+            :show-upload-list="false"
+            action="/api/upload"
+            :before-upload="beforeUpload"
+            @change="handleChange"
+          >
+            <img v-if="imageUrl" :src="imageUrl" />
+            <div v-else>
+              <loading-outlined v-if="loading"></loading-outlined>
+              <plus-outlined v-else></plus-outlined>
+              <div class="ant-upload-text">Upload</div>
+            </div>
+          </a-upload>
+          <div class="text">我的头像</div>
+          <div class="tips">支持 jpg、png、jpeg 格式大小 2M 以内的图片</div>
+        </div>
       </div>
-      <div class="avatar">
-        <a-upload
-          v-model:file-list="fileList"
-          name="file"
-          list-type="picture-card"
-          :headers="headers"
-          class="avatar-uploader"
-          :show-upload-list="false"
-          action="/api/upload"
-          :before-upload="beforeUpload"
-          @change="handleChange"
+      <div class="btn">
+        <a-button
+          type="primary"
+          @click="handleChangeUserInfo"
+          :disabled="isLoading"
+          >更新信息</a-button
         >
-          <img v-if="imageUrl" :src="imageUrl" />
-          <div v-else>
-            <loading-outlined v-if="loading"></loading-outlined>
-            <plus-outlined v-else></plus-outlined>
-            <div class="ant-upload-text">Upload</div>
-          </div>
-        </a-upload>
-        <div class="text">我的头像</div>
-        <div class="tips">支持 jpg、png、jpeg 格式大小 2M 以内的图片</div>
       </div>
-    </div>
-    <div class="btn">
-      <a-button
-        type="primary"
-        @click="handleChangeUserInfo"
-        :disabled="isLoading"
-        >保存修改</a-button
-      >
     </div>
   </div>
 </template>
@@ -85,7 +87,6 @@ import { useUserStore } from '@/stores/user';
 import { updateUserInfo } from '@/api/user';
 import { message } from 'ant-design-vue';
 
-const emit = defineEmits(['closeModal']);
 const userStore = useUserStore();
 const isLoading = ref(false);
 const { fileList, headers, loading, imageUrl, handleChange, beforeUpload } =
@@ -114,20 +115,21 @@ const handleChangeUserInfo = async () => {
   userStore.userInfo.avatar = data.avatar;
   await updateUserInfo(userStore.userInfo?.id, data);
   isLoading.value = false;
-  emit('closeModal');
+  message.success('个人信息修改成功！');
 };
 </script>
 
 <style lang="less">
-.self-info-form-container {
-  //   padding: 20px;
-  .title {
-    font-weight: 600;
-    font-size: 20px;
-    line-height: 18px;
-    color: #333;
-    margin-bottom: 20px;
-  }
+.self-container {
+  padding: 30px;
+}
+
+.title {
+  font-weight: 600;
+  color: #333;
+}
+
+.content {
   .info {
     display: flex;
     align-items: flex-start;

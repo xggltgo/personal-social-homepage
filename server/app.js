@@ -55,6 +55,7 @@ app.use(
       // 配置无需token验证的路径
       '/api/user/login',
       '/api/user/register',
+      '/api/user/exist',
       { url: '/api/user', method: 'GET' },
       { url: /^\/api\/user\/detail\/\d+$/, method: 'GET' },
       '/res/captcha',

@@ -148,14 +148,16 @@ const likeClick = async () => {
 
 // 进入页面需要判断用户是否已赞过该文章
 (async () => {
-  const result = await likeExist({
-    userid: userStore.userInfo?.id,
-    essayid: route.params.essayid,
-  });
-  if (result) {
-    liked.value = true;
-  } else {
-    liked.value = false;
+  if (userStore.userInfo) {
+    const result = await likeExist({
+      userid: userStore.userInfo?.id,
+      essayid: route.params.essayid,
+    });
+    if (result) {
+      liked.value = true;
+    } else {
+      liked.value = false;
+    }
   }
 })();
 </script>

@@ -5,6 +5,7 @@ const {
   updateUser,
   selectUserByLoginId,
   selectUserById,
+  selectUserByPage
 } = require('../dao/sql/user');
 const { selectEssayByUserid } = require('../dao/sql/essay');
 const { selectIssueByUserid } = require('../dao/sql/issue');
@@ -95,10 +96,20 @@ async function getUserAllInfoById(userid) {
   };
 }
 
+// 分页获取用户信息
+async function getUserByPage(pageInfo) {
+  const { count, rows } = await selectUserByPage(pageInfo);
+  return {
+    total: count,
+    userList: rows,
+  };
+}
+
 module.exports = {
   register,
   login,
   update,
   getUserByLoginId,
   getUserAllInfoById,
+  getUserByPage
 };

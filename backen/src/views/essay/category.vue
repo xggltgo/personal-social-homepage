@@ -152,7 +152,8 @@ const categoryName = ref('');
 const handleAddCategory = async () => {
   console.log(categoryName.value);
   if (!categoryName.value) {
-    message.error('请填写分类名称！');
+    message.error('请填写分类名称');
+    return;
   }
   const data = {
     name: categoryName.value,

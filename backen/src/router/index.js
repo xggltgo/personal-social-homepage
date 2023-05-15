@@ -20,6 +20,11 @@ const router = createRouter({
           component: () => import('../views/dashboard/index.vue'),
         },
         {
+          path: 'user',
+          name: 'user',
+          component: () => import('../views/user/index.vue'),
+        },
+        {
           path: 'essayList',
           name: 'essayList',
           component: () => import('../views/essay/list.vue'),
@@ -60,6 +65,11 @@ const router = createRouter({
           name: 'message',
           component: () => import('../views/message/index.vue'),
         },
+        {
+          path: 'self',
+          name: 'self',
+          component: () => import('../views/self/index.vue'),
+        },
 
         // {
         //   path: '/404',
@@ -78,6 +88,7 @@ const router = createRouter({
 router.beforeEach(async (to, from, next) => {
   if (to.fullPath === '/login') {
     // 访问登录页 直接放行
+    // 如果已经登录过了 导航到首页
     next();
   } else {
     const userStore = useUserStore();

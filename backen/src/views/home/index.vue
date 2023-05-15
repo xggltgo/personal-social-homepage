@@ -18,6 +18,17 @@
             >控制台</router-link
           >
         </a-menu-item>
+        <a-menu-item key="user">
+          <template #icon>
+            <TeamOutlined />
+          </template>
+          <router-link
+            :to="{
+              name: 'user',
+            }"
+            >用户管理</router-link
+          >
+        </a-menu-item>
         <a-sub-menu key="essay">
           <template #icon>
             <FileSyncOutlined />
@@ -125,6 +136,16 @@
           >
         </a-menu-item>
       </a-menu>
+      <div class="admin-control">
+        <router-link
+          :to="{
+            name: 'self',
+          }"
+          class="info"
+          >个人中心</router-link
+        >
+        <div class="loginOut" @click="handleLoginOut">退出登录</div>
+      </div>
     </div>
     <div class="main">
       <RouterView />
@@ -148,21 +169,25 @@ import {
   SmileOutlined,
   PlusOutlined,
   AliwangwangOutlined,
+  TeamOutlined,
 } from '@ant-design/icons-vue';
 
 import { confirmChecked } from './util';
+import { useUserStore } from '@/stores/user';
 
 const route = useRoute();
+const router = useRouter();
+const userStore = useUserStore();
 const state = computed(() => ({
   selectedKeys: [route.name || 'dashboard'],
   openKeys: [confirmChecked(route.name)],
 }));
 
-// const router = useRouter();
-
-// router.push({
-//   name: 'dashboard',
-// });
+// 处理退出登录
+function handleLoginOut() {
+  userStore.loginOut();
+  router.push('/login');
+}
 </script>
 
 <style lang="less" scoped>
@@ -175,11 +200,30 @@ const state = computed(() => ({
     flex-shrink: 0;
     position: relative;
     background: #001529;
+    height: 100%;
+    .admin-control {
+      position: absolute;
+      bottom: 0;
+      color: rgba(255, 255, 255, 0.65);
+      display: flex;
+      height: 60px;
+      line-height: 60px;
+      width: 100%;
+      justify-content: space-around;
+      .info,
+      .loginOut {
+        cursor: pointer;
+        &:hover {
+          color: #fff;
+          text-decoration: underline;
+        }
+      }
+    }
   }
   .main {
     height: 100%;
     flex-grow: 1;
-    overflow: hidden scroll;
+    overflow: hidden auto;
   }
 }
 </style>

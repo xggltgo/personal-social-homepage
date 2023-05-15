@@ -95,6 +95,8 @@ const titleTextList = 'PERSONALHOMEPAGE后台管理'.split('');
 const formState = reactive({
   loginId: 'xgglt',
   loginPwd: '123456',
+  // loginId: '',
+  // loginPwd: '',
   // captcha: '',
 });
 const onFinish = async (values) => {

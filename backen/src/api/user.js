@@ -29,6 +29,16 @@ export async function exist(loginId) {
   });
 }
 
+export async function getUserByPage({ page = 1, limit = 10, keyword }) {
+  return await request.get('/api/user', {
+    params: {
+      page,
+      limit,
+      keyword,
+    },
+  });
+}
+
 // 根据用户id查询用户信息
 export async function getUserInfoById(id) {
   return await request.get(`/api/user/detail/${id}`);

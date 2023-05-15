@@ -6,7 +6,8 @@ const {
   login,
   update,
   getUserByLoginId,
-  getUserAllInfoById
+  getUserAllInfoById,
+  getUserByPage,
 } = require('../service/user');
 const { formatResponse, verifyToken } = require('../utils/tools');
 const { ValidationError } = require('../utils/errors');
@@ -33,7 +34,7 @@ router.post('/login', async function (req, res, next) {
 });
 
 // 判断账号是否存在
-router.get('/', async function (req, res, next) {
+router.get('/exist', async function (req, res, next) {
   const result = await getUserByLoginId(req.query.loginId);
   res.send(formatResponse(0, '', !!result));
 });
@@ -55,6 +56,12 @@ router.get('/whoami', async function (req, res, next) {
 // 修改用户信息
 router.put('/:id', async function (req, res, next) {
   const result = await update(req.params.id, req.body);
+  res.send(formatResponse(0, '', result));
+});
+
+// 分页获取用户信息
+router.get('/', async function (req, res, next) {
+  const result = await getUserByPage(req.query);
   res.send(formatResponse(0, '', result));
 });
 

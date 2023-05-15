@@ -22,7 +22,7 @@ export async function updateUserInfo(id, data) {
 
 // 判断账号是否存在
 export async function exist(loginId) {
-  return await request.get('/api/user', {
+  return await request.get('/api/user/exist', {
     params: {
       loginId,
     },

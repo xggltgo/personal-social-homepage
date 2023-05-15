@@ -62,10 +62,10 @@ import { useUserStore } from '@/stores/user';
 const userStore = useUserStore();
 const emit = defineEmits(['closeModal']);
 const formState = reactive({
-  loginId: 'user',
-  loginPwd: '123456',
-  // loginId: '',
-  // loginPwd: '',
+  // loginId: 'user',
+  // loginPwd: '123456',
+  loginId: '',
+  loginPwd: '',
   remember: false,
 });
 const onFinish = async (values) => {

@@ -75,6 +75,8 @@ const onFinish = async () => {
   router.push({
     name: 'issueList',
   });
+
+  message.success('添加问答成功！');
 };
 </script>
 

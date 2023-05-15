@@ -136,6 +136,32 @@ async function selectUserById(id) {
   return result;
 }
 
+/**
+ * 从数据库分页查询所有用户
+ */
+async function selectUserByPage({ page = 1, limit = 10, keyword = '' }) {
+  const where = {};
+  const searchConfig = keyword
+    ? { nickname: { [Op.like]: `%${keyword}%` } }
+    : {};
+  const result = await User.findAndCountAll({
+    where: {
+      ...where,
+      ...searchConfig,
+    },
+    offset: (+page - 1) * +limit,
+    limit: +limit,
+    attributes: {
+      exclude: ['loginPwd'],
+    },
+    order: [
+      ['registerDate', 'DESC'], // 按照 createDate 字段降序排序
+    ],
+  });
+
+  return JSON.parse(JSON.stringify(result));
+}
+
 module.exports = {
   insertUser,
   loginDao,
@@ -145,4 +171,5 @@ module.exports = {
   updateUserSelfEssayCount,
   updateUserSelfLifeCount,
   updateUserSelfIssueCount,
+  selectUserByPage,
 };
